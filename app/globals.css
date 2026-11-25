@@ -1,26 +1,56 @@
 @import "tailwindcss";
 
+/* Brand palette, 60/30/10: canvas 60%, content 30%, accent 10% (CTAs only). */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --paper: #fafaf7;
+  --ink: #1a1c1e;
+  --beet: #8e2c48;
+  --beet-light: #d46a8c; /* accent on dark canvas, ~5:1 contrast with ink */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --canvas: var(--paper);
+  --content: var(--ink);
+  --accent: var(--beet);
+  --on-accent: var(--paper);
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --canvas: var(--ink);
+    --content: var(--paper);
+    --accent: var(--beet-light);
+    --on-accent: var(--ink);
+    color-scheme: dark;
   }
 }
 
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-content: var(--content);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-muted: color-mix(in oklab, var(--content) 64%, var(--canvas));
+  --color-line: color-mix(in oklab, var(--content) 12%, var(--canvas));
+  --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--canvas);
+  color: var(--content);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Fixed-width digits so calorie numbers don't jump while they change */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Narrow width of Bricolage for big numbers */
+.condensed {
+  font-variation-settings: "wdth" 75;
 }
